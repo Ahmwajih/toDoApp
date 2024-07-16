@@ -11,6 +11,13 @@
         input, button{
             margin: 10px;
         }
+        li {
+            border: 4px solid rgb(146, 25, 25);
+            margin: 10px;
+            padding: 10px;
+            list-style-type: none;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -32,6 +39,7 @@
     <script>
         const form = document.getElementById('form');
         const list = document.getElementById('list');
+        const button = document.getElementById('add');
         
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -40,13 +48,43 @@
         });
        
         function loadTodos(){
+            form.reset();
+            list.innerHTML = '';
             fetch('http://localhost:3000/')
             .then(response => response.json())
             .then(data => {
-              console.log(data);
+                data.data.rows.forEach(todo => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <h3>${todo.title}</h3>
+                        <p>${todo.description}</p>
+                    `;
+                    list.appendChild(li);
                 });
+            });
             };
         loadTodos();
+
+        function addTodo(){
+       fetch('http://localhost:3000/', {
+              method: 'POST',
+           headers: {
+         'Content-Type': 'application/json'
+                 },
+                body: JSON.stringify({
+                    title: title.value, 
+                    description: description.value, 
+                    priority})
+             })
+            .then(response => response.json())
+            .then(data => {
+                loadTodos();
+                console.log(data);
+            });     
+           };
+        button.addEventListener('click', ()=> {
+            addTodo();
+        });
     </script>
 </body>
 </html>
