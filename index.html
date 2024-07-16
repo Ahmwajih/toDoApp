@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form, h1{
+            text-align:center;
+        }
+        input, button{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <form id="form">
+        <label for="title">Title</label>
+        <br>
+        <input type="text" id="title" name="title">
+        <br>
+        <label for="description">Description</label>
+        <br>
+        <input type="text" id="description" name="description">
+        <br>
+        <input type="submit" id="add" value="ADD TODO"></button>
+    </form>
+
+    <ul id="list"></ul>
+
+    <script>
+        const form = document.getElementById('form');
+        const list = document.getElementById('list');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+        });
+       
+        function loadTodos(){
+            fetch('http://localhost:3000/')
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+                });
+            };
+        loadTodos();
+    </script>
+</body>
+</html>
